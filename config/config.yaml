@@ -1,5 +1,4 @@
-samples: "config/samples.tsv"
-ref: "resources/reference.fna"
-adapter_file: "resources/adapters/TruSeq3-PE.fa"
-
+samples: "samples.tsv"
+ref: "references/reference.fna"
 window_size: 100
+samples_list: ["sample1", "sample2"]  # Automatisch aus .tsv generieren geht auch

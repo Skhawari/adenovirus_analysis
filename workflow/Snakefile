@@ -1,18 +1,17 @@
-import pandas as pd
+# workflow/Snakefile
 
 configfile: "config/config.yaml"
 
-SAMPLES = [s["sample"] for s in pd.read_csv(config["samples"], sep="\t").to_dict(orient="records")]
+include: "workflow/rules/qc.smk"
+include: "workflow/rules/assembly.smk"
+include: "workflow/rules/ragtag.smk"        # NEU
+include: "workflow/rules/mapping.smk"
+include: "workflow/rules/phylogeny.smk"
+include: "workflow/rules/variability.smk"
 
+# Targets
 rule all:
     input:
-        "results/tree/adenovirus.nwk",
-        "results/tree/adenovirus.pdf",
-        "results/variability/entropy.tsv",
-        "results/variability/entropy.png"
-
-include: "rules/qc.smk"
-include: "rules/assembly.smk"
-include: "rules/scaffolding.smk"
-include: "rules/phylogeny.smk"
-include: "rules/variability.smk"
+        expand("results/tree/{sample}.pdf", sample=config["samples_list"]),
+        expand("results/variability/{sample}_entropy.tsv", sample=config["samples_list"]),
+        expand("results/variability/{sample}_entropy_plot.png", sample=config["samples_list"]),
