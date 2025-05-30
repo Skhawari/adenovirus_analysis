@@ -1,0 +1,146 @@
+- STAGE: Before start
+  args: []
+  config_dir: ''
+  del_after: []
+  output_files: []
+  path: 'true'
+  short_name: before_start
+- STAGE: Read error correction
+  args: []
+  config_dir: ''
+  del_after: []
+  output_files: []
+  path: 'true'
+  short_name: ec_start
+- STAGE: Read error correction
+  args:
+  - /storage/mi/sajjak01/applied_SeqAn/adenovirus_analysis/results/assembly/sample1/corrected/configs/config.info
+  config_dir: corrected
+  del_after:
+  - tmp/hammer_v049ucwm
+  output_files:
+  - /storage/mi/sajjak01/applied_SeqAn/adenovirus_analysis/results/assembly/sample1/corrected/corrected.yaml
+  path: /storage/mi/sajjak01/applied_SeqAn/adenovirus_analysis/.snakemake/conda/cd31d89c0c68fd67ecd548383a0dec8c_/bin/spades-hammer
+  short_name: ec_runtool
+- STAGE: corrected reads compression
+  args:
+  - /storage/mi/sajjak01/applied_SeqAn/adenovirus_analysis/.snakemake/conda/cd31d89c0c68fd67ecd548383a0dec8c_/share/spades/spades_pipeline/scripts/compress_all.py
+  - --input_file
+  - /storage/mi/sajjak01/applied_SeqAn/adenovirus_analysis/results/assembly/sample1/corrected/corrected.yaml
+  - --ext_python_modules_home
+  - /storage/mi/sajjak01/applied_SeqAn/adenovirus_analysis/.snakemake/conda/cd31d89c0c68fd67ecd548383a0dec8c_/share/spades
+  - --max_threads
+  - '4'
+  - --output_dir
+  - /storage/mi/sajjak01/applied_SeqAn/adenovirus_analysis/results/assembly/sample1/corrected
+  - --gzip_output
+  config_dir: ''
+  del_after: []
+  output_files: []
+  path: /storage/mi/sajjak01/applied_SeqAn/adenovirus_analysis/.snakemake/conda/cd31d89c0c68fd67ecd548383a0dec8c_/bin/python
+  short_name: ec_compress
+- STAGE: Read error correction
+  args: []
+  config_dir: ''
+  del_after: []
+  output_files: []
+  path: 'true'
+  short_name: ec_finish
+- STAGE: Assembling
+  args: []
+  config_dir: ''
+  del_after: []
+  output_files: []
+  path: 'true'
+  short_name: as_start
+- STAGE: K21
+  args:
+  - /storage/mi/sajjak01/applied_SeqAn/adenovirus_analysis/results/assembly/sample1/K21/configs/config.info
+  config_dir: K21
+  del_after: []
+  output_files: []
+  path: /storage/mi/sajjak01/applied_SeqAn/adenovirus_analysis/.snakemake/conda/cd31d89c0c68fd67ecd548383a0dec8c_/bin/spades-core
+  short_name: k21
+- STAGE: K33
+  args:
+  - /storage/mi/sajjak01/applied_SeqAn/adenovirus_analysis/results/assembly/sample1/K33/configs/config.info
+  config_dir: K33
+  del_after: []
+  output_files: []
+  path: /storage/mi/sajjak01/applied_SeqAn/adenovirus_analysis/.snakemake/conda/cd31d89c0c68fd67ecd548383a0dec8c_/bin/spades-core
+  short_name: k33
+- STAGE: K55
+  args:
+  - /storage/mi/sajjak01/applied_SeqAn/adenovirus_analysis/results/assembly/sample1/K55/configs/config.info
+  config_dir: K55
+  del_after: []
+  output_files: []
+  path: /storage/mi/sajjak01/applied_SeqAn/adenovirus_analysis/.snakemake/conda/cd31d89c0c68fd67ecd548383a0dec8c_/bin/spades-core
+  short_name: k55
+- STAGE: K77
+  args:
+  - /storage/mi/sajjak01/applied_SeqAn/adenovirus_analysis/results/assembly/sample1/K77/configs/config.info
+  config_dir: K77
+  del_after: []
+  output_files: []
+  path: /storage/mi/sajjak01/applied_SeqAn/adenovirus_analysis/.snakemake/conda/cd31d89c0c68fd67ecd548383a0dec8c_/bin/spades-core
+  short_name: k77
+- STAGE: Copy files
+  args:
+  - /storage/mi/sajjak01/applied_SeqAn/adenovirus_analysis/.snakemake/conda/cd31d89c0c68fd67ecd548383a0dec8c_/share/spades/spades_pipeline/scripts/copy_files.py
+  - /storage/mi/sajjak01/applied_SeqAn/adenovirus_analysis/results/assembly/sample1/K77/before_rr.fasta
+  - /storage/mi/sajjak01/applied_SeqAn/adenovirus_analysis/results/assembly/sample1/before_rr.fasta
+  - /storage/mi/sajjak01/applied_SeqAn/adenovirus_analysis/results/assembly/sample1/K77/assembly_graph_after_simplification.gfa
+  - /storage/mi/sajjak01/applied_SeqAn/adenovirus_analysis/results/assembly/sample1/assembly_graph_after_simplification.gfa
+  - /storage/mi/sajjak01/applied_SeqAn/adenovirus_analysis/results/assembly/sample1/K77/final_contigs.fasta
+  - /storage/mi/sajjak01/applied_SeqAn/adenovirus_analysis/results/assembly/sample1/contigs.fasta
+  - /storage/mi/sajjak01/applied_SeqAn/adenovirus_analysis/results/assembly/sample1/K77/first_pe_contigs.fasta
+  - /storage/mi/sajjak01/applied_SeqAn/adenovirus_analysis/results/assembly/sample1/first_pe_contigs.fasta
+  - /storage/mi/sajjak01/applied_SeqAn/adenovirus_analysis/results/assembly/sample1/K77/strain_graph.gfa
+  - /storage/mi/sajjak01/applied_SeqAn/adenovirus_analysis/results/assembly/sample1/strain_graph.gfa
+  - /storage/mi/sajjak01/applied_SeqAn/adenovirus_analysis/results/assembly/sample1/K77/scaffolds.fasta
+  - /storage/mi/sajjak01/applied_SeqAn/adenovirus_analysis/results/assembly/sample1/scaffolds.fasta
+  - /storage/mi/sajjak01/applied_SeqAn/adenovirus_analysis/results/assembly/sample1/K77/scaffolds.paths
+  - /storage/mi/sajjak01/applied_SeqAn/adenovirus_analysis/results/assembly/sample1/scaffolds.paths
+  - /storage/mi/sajjak01/applied_SeqAn/adenovirus_analysis/results/assembly/sample1/K77/assembly_graph_with_scaffolds.gfa
+  - /storage/mi/sajjak01/applied_SeqAn/adenovirus_analysis/results/assembly/sample1/assembly_graph_with_scaffolds.gfa
+  - /storage/mi/sajjak01/applied_SeqAn/adenovirus_analysis/results/assembly/sample1/K77/assembly_graph.fastg
+  - /storage/mi/sajjak01/applied_SeqAn/adenovirus_analysis/results/assembly/sample1/assembly_graph.fastg
+  - /storage/mi/sajjak01/applied_SeqAn/adenovirus_analysis/results/assembly/sample1/K77/final_contigs.paths
+  - /storage/mi/sajjak01/applied_SeqAn/adenovirus_analysis/results/assembly/sample1/contigs.paths
+  config_dir: ''
+  del_after:
+  - .bin_reads
+  - tmp/spades_dvk499pz
+  output_files: []
+  path: /storage/mi/sajjak01/applied_SeqAn/adenovirus_analysis/.snakemake/conda/cd31d89c0c68fd67ecd548383a0dec8c_/bin/python
+  short_name: copy_files
+- STAGE: Assembling
+  args: []
+  config_dir: ''
+  del_after: []
+  output_files: []
+  path: 'true'
+  short_name: as_finish
+- STAGE: Breaking scaffolds
+  args:
+  - /storage/mi/sajjak01/applied_SeqAn/adenovirus_analysis/.snakemake/conda/cd31d89c0c68fd67ecd548383a0dec8c_/share/spades/spades_pipeline/scripts/breaking_scaffolds_script.py
+  - --result_scaffolds_filename
+  - /storage/mi/sajjak01/applied_SeqAn/adenovirus_analysis/results/assembly/sample1/scaffolds.fasta
+  - --misc_dir
+  - /storage/mi/sajjak01/applied_SeqAn/adenovirus_analysis/results/assembly/sample1/misc
+  - --threshold_for_breaking_scaffolds
+  - '3'
+  config_dir: ''
+  del_after: []
+  output_files: []
+  path: /storage/mi/sajjak01/applied_SeqAn/adenovirus_analysis/.snakemake/conda/cd31d89c0c68fd67ecd548383a0dec8c_/bin/python
+  short_name: bs
+- STAGE: Terminate
+  args: []
+  config_dir: ''
+  del_after:
+  - configs
+  output_files: []
+  path: 'true'
+  short_name: terminate

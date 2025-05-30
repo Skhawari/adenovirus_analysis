@@ -1,0 +1,18 @@
+import pandas as pd
+
+configfile: "config/config.yaml"
+
+SAMPLES = [s["sample"] for s in pd.read_csv(config["samples"], sep="\t").to_dict(orient="records")]
+
+rule all:
+    input:
+        "results/tree/adenovirus.nwk",
+        "results/tree/adenovirus.pdf",
+        "results/variability/entropy.tsv",
+        "results/variability/entropy.png"
+
+include: "rules/qc.smk"
+include: "rules/assembly.smk"
+include: "rules/scaffolding.smk"
+include: "rules/phylogeny.smk"
+include: "rules/variability.smk"

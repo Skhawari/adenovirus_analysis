@@ -1,0 +1,2 @@
+usage: ragtag.py scaffold <reference.fa> <query.fa>
+ragtag_scaffold.py: error: unrecognized arguments: --threads 4

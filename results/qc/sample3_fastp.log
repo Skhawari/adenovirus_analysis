@@ -1,0 +1,41 @@
+Read1 before filtering:
+total reads: 170085
+total bases: 15439319
+Q20 bases: 15439319(100%)
+Q30 bases: 15439319(100%)
+
+Read2 before filtering:
+total reads: 170085
+total bases: 15440420
+Q20 bases: 15440420(100%)
+Q30 bases: 15440420(100%)
+
+Read1 after filtering:
+total reads: 170085
+total bases: 15436591
+Q20 bases: 15436591(100%)
+Q30 bases: 15436591(100%)
+
+Read2 after filtering:
+total reads: 170085
+total bases: 15409241
+Q20 bases: 15409241(100%)
+Q30 bases: 15409241(100%)
+
+Filtering result:
+reads passed filter: 340170
+reads failed due to low quality: 0
+reads failed due to too many N: 0
+reads failed due to too short: 0
+reads with adapter trimmed: 11528
+bases trimmed due to adapters: 33907
+
+Duplication rate: 4.17791%
+
+Insert size peak (evaluated by paired-end reads): 44
+
+JSON report: results/qc/sample3_fastp.json
+HTML report: results/qc/sample3_fastp.html
+
+fastp -i data/sample_25_1.fastq.gz -I data/sample_25_2.fastq.gz -o results/trimmed/sample3_1.fq.gz -O results/trimmed/sample3_2.fq.gz -h results/qc/sample3_fastp.html -j results/qc/sample3_fastp.json -w 4 
+fastp v0.23.4, time used: 1 seconds
