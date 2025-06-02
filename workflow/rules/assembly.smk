@@ -1,28 +1,31 @@
-# workflow/rules/assembly.smk
 
 rule spades:
     input:
-        fq1 = "results/trimmed/{sample}_1.fq.gz",
-        fq2 = "results/trimmed/{sample}_2.fq.gz"
+        fq1 = "results/trimmed/{sample}_R1.fastq.gz",
+        fq2 = "results/trimmed/{sample}_R2.fastq.gz"
     output:
-        contigs = "results/assembly/{sample}/contigs.fasta"
+        fasta = "results/assembly/{sample}/spades/contigs.fasta"
     log:
-        "results/assembly/{sample}/spades.log"
-    threads: 8
+        "logs/assembly/{sample}.log"
+    threads: 4
     conda:
         "../envs/assembly.yaml"
     shell:
         """
-        spades.py -1 {input.fq1} -2 {input.fq2} -o results/assembly/{wildcards.sample} \
-                  --threads {threads} &> {log}
+        spades.py --phred-offset 33 -1 {input.fq1} -2 {input.fq2} -o results/assembly/{wildcards.sample}/spades -t {threads} > {log} 2>&1
         """
 
 rule quast:
     input:
-        "results/assembly/{sample}/contigs.fasta"
+        fasta = "results/assembly/{sample}/spades/contigs.fasta"
     output:
-        "results/quast/{sample}/report.tsv"
+        "results/quast/{sample}/report.txt"
+    log:
+        "logs/quast/{sample}.log"
+    threads: 2
     conda:
         "../envs/assembly.yaml"
     shell:
-        "quast {input} -o results/quast/{wildcards.sample}"
+        """
+        quast --threads {threads} -o results/quast/{wildcards.sample} {input.fasta} > {log} 2>&1
+        """

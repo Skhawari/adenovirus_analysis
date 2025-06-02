@@ -1,0 +1,32 @@
+# Snakemake internals
+.snakemake/
+*.snakemake/
+
+# Output directories
+data/
+results/
+logs/
+
+# Conda environments and caches
+.envs/
+*.yml
+*.conda
+*.tar.bz2
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Jupyter notebooks checkpoints
+.ipynb_checkpoints/
+
+# Editor-/System-Dateien
+.DS_Store
+*.swp
+*.swo
+*.bak
+*.tmp
+*.log
+
+# VS Code
+.vscode/

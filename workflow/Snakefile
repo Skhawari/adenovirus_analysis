@@ -1,17 +1,24 @@
-# workflow/Snakefile
+import pandas as pd
+from snakemake.utils import min_version
+min_version("7.0")
+
+wrapper_prefix = "https://github.com/snakemake/snakemake-wrappers/raw/master/bio"
 
 configfile: "config/config.yaml"
+samples = pd.read_csv(config["samples"], sep="\t", index_col="sample")
+SAMPLES = samples.index.tolist()
 
-include: "workflow/rules/qc.smk"
-include: "workflow/rules/assembly.smk"
-include: "workflow/rules/ragtag.smk"        # NEU
-include: "workflow/rules/mapping.smk"
-include: "workflow/rules/phylogeny.smk"
-include: "workflow/rules/variability.smk"
+include: "rules/qc.smk"
+include: "rules/assembly.smk"
+include: "rules/scaffold.smk"
+include: "rules/phylogeny.smk"
+include: "rules/variability.smk"
 
-# Targets
+
 rule all:
     input:
-        expand("results/tree/{sample}.pdf", sample=config["samples_list"]),
-        expand("results/variability/{sample}_entropy.tsv", sample=config["samples_list"]),
-        expand("results/variability/{sample}_entropy_plot.png", sample=config["samples_list"]),
+        expand("results/quast/{sample}/report.txt", sample=SAMPLES),
+        "results/alignment/mafft_alignment.fasta",
+        "results/tree/iqtree.treefile",
+        "results/variability/entropy.tsv",
+        "results/variability/entropy_plot.png"

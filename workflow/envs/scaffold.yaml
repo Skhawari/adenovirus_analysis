@@ -2,6 +2,7 @@ channels:
   - bioconda
   - conda-forge
 dependencies:
-  - fastqc
-  - fastp
-  - multiqc
+  - ragtag
+  - biopython
+  - pysam
+  - openssl=1.0.2

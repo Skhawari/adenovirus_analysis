@@ -1,36 +1,66 @@
-# workflow/rules/qc.smk
+# rules/qc.smk
 
-import pandas as pd
-samples = pd.read_csv(config["samples"], sep="\t", index_col="sample")
+rule fastqc_raw:
+    input:
+        fq = lambda wc: samples.at[wc.sample, f"fq{wc.idx}"]
+    output:
+        html = temp("results/fastqc_raw/{sample}_{idx}_fastqc.html"),
+        zip = temp("results/fastqc_raw/{sample}_{idx}_fastqc.zip")
+    log:
+        "logs/fastqc_raw/{sample}_{idx}.log"
+    threads: 2
+    conda:
+        "../envs/qc.yaml"
+    wrapper:
+        "v6.2.0/bio/fastqc"
 
 rule fastp:
     input:
-        fq1 = lambda wc: samples.loc[wc.sample, "fq1"],
-        fq2 = lambda wc: samples.loc[wc.sample, "fq2"]
+        fq1 = lambda wc: samples.at[wc.sample, "fq1"],
+        fq2 = lambda wc: samples.at[wc.sample, "fq2"]
     output:
-        fq1 = "results/trimmed/{sample}_1.fq.gz",
-        fq2 = "results/trimmed/{sample}_2.fq.gz",
-        html = "results/qc/{sample}_fastp.html",
-        json = "results/qc/{sample}_fastp.json"
+        fq1 = temp("results/trimmed/{sample}_R1.fastq.gz"),
+        fq2 = temp("results/trimmed/{sample}_R2.fastq.gz"),
+        html = "results/qc/fastp/{sample}.html",
+        json = "results/qc/fastp/{sample}.json"
     log:
-        "results/qc/{sample}_fastp.log"
+        "logs/fastp/{sample}.log"
     threads: 4
     conda:
         "../envs/qc.yaml"
     shell:
         """
-        fastp -i {input.fq1} -I {input.fq2} \
-              -o {output.fq1} -O {output.fq2} \
-              -h {output.html} -j {output.json} \
-              -w {threads} &> {log}
+        fastp -i {input.fq1} -I {input.fq2} -o {output.fq1} -O {output.fq2} \
+              --html {output.html} --json {output.json} > {log} 2>&1
         """
+
+rule fastqc_trimmed:
+    input:
+        fq = "results/trimmed/{sample}_R{idx}.fastq.gz"
+    output:
+        html = temp("results/fastqc_trimmed/{sample}_{idx}_fastqc.html"),
+        zip = temp("results/fastqc_trimmed/{sample}_{idx}_fastqc.zip")
+    log:
+        "logs/fastqc_trimmed/{sample}_{idx}.log"
+    threads: 2
+    conda:
+        "../envs/qc.yaml"
+    wrapper:
+        "v6.2.0/bio/fastqc"
 
 rule multiqc:
     input:
-        expand("results/qc/{sample}_fastp.json", sample=samples.index)
+        expand("results/fastqc_raw/{sample}_{idx}_fastqc.zip", sample=samples.index, idx=["1", "2"]) +
+        expand("results/fastqc_trimmed/{sample}_{idx}_fastqc.zip", sample=samples.index, idx=["1", "2"]) +
+        expand("results/qc/fastp/{sample}.json", sample=samples.index)
     output:
-        "results/qc/multiqc_report.html"
+        html = "results/multiqc/multiqc_report.html"
+    log:
+        "logs/multiqc/multiqc.log"
+    threads: 1
     conda:
         "../envs/qc.yaml"
     shell:
-        "multiqc results/qc -o results/qc"
+        """
+        multiqc results/ -o results/multiqc > {log} 2>&1
+        """

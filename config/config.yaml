@@ -1,4 +1,3 @@
-samples: "samples.tsv"
-ref: "references/reference.fna"
+samples: "config/samples.tsv"
+ragtag_ref: "resources/reference.fna"
 window_size: 100
-samples_list: ["sample1", "sample2"]  # Automatisch aus .tsv generieren geht auch

@@ -1,9 +1,7 @@
-name: assembly
 channels:
   - bioconda
   - conda-forge
 dependencies:
-  - spades =3.15.5
-  - quast =5.2.0
-  - ragtag =2.1.0
-  - python =3.10
+  - spades
+  - quast
+  - snakemake-wrapper-utils
